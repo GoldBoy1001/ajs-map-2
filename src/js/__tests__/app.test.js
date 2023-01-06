@@ -1,21 +1,25 @@
-import Settings from '../app';
+import { appSettings } from '../app';
 
-test('default settings', () => {
-  const test = new Settings();
-  const result = new Map();
-  result.set('theme', 'dark')
-    .set('music', 'trance')
-    .set('difficulty', 'easy');
-  expect(test.settings).toEqual(result);
+test('тест установки пользовательских настроек', () => {
+  const received = Object.fromEntries(appSettings.settings);
+  const expected = {
+    theme: 'gray',
+    music: 'rock',
+    difficulty: 'easy',
+  };
+  expect(received).toEqual(expected);
 });
 
-test('user settings', () => {
-  const test = new Settings();
-  test.userSettings.set('theme', 'light')
-    .set('difficulty', 'hard');
-  const result = new Map();
-  result.set('theme', 'light')
-    .set('music', 'trance')
-    .set('difficulty', 'hard');
-  expect(test.settings).toEqual(result);
+test('тест смены пользовательских настроек', () => {
+  appSettings.set('theme', 'light');
+  appSettings.set('music', 'chillout');
+  appSettings.set('difficulty', 'hard');
+
+  const received = Object.fromEntries(appSettings.settings);
+  const expected = {
+    theme: 'light',
+    music: 'chillout',
+    difficulty: 'hard',
+  };
+  expect(received).toEqual(expected);
 });
